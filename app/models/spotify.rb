@@ -14,11 +14,13 @@ module Spot
     end
 
     def self.find_tracks(query, limit = 3)
+      RSpotify.authenticate(ENV['RSPOTIFY_TOKEN'],ENV['RSPOTIFY_PASSWORD'])
       tracks = RSpotify::Track.search(query, limit: limit, market: 'US')
       tracks.sort_by{|track| -track.popularity}
     end
 
     def self.get_album_info(uri)
+      RSpotify.authenticate(ENV['RSPOTIFY_TOKEN'],ENV['RSPOTIFY_PASSWORD'])
       uri = uri.gsub("spotify:album:","")
       RSpotify::Album.find(uri)
     end
